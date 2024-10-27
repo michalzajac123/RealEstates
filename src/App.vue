@@ -1,24 +1,24 @@
-<script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import { RouterLink } from "vue-router";
-</script>
-
 <template>
-  <RouterLink to="/"> Go to home</RouterLink>
-  <RouterLink to="/about">Go to about</RouterLink>
-  <router-view></router-view>
+  <div class="wrapper">
+    <HeaderView />
+    <div class="wrapper-content">
+      <router-view />
+    </div>
+  </div>
 </template>
+<script setup lang="ts">
+import HeaderView from "./components/HeaderView.vue";
+</script>
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.wrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  align-items: center;
+  .wrapper-content {
+    width: 80%;
+    margin: 10px;
+  }
 }
 </style>

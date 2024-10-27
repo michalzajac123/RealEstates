@@ -1,6 +1,6 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/Homeview.vue";
+import HomeView from "../views/HomeView/Homeview.vue";
 
 // Definiowanie tras
 const routes = [
