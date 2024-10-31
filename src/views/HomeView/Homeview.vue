@@ -1,17 +1,21 @@
 <template>
-  <div class="real-estate-wrapper">
+  <div class="real-estates-wrapper">
     <div class="re-top">
       <div></div>
       <h2 class="re-top-title">Lista</h2>
-      <AddButton />
+      <RouterLink to="/form" class="add-button">Dodaj</RouterLink>
+    </div>
+    <div class="real-estates">
+      <RealEstateBlock v-for="number in numbers" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import AddButton from "./AddButton.vue";
+import RealEstateBlock from "./RealEstateBlock.vue";
+let numbers = [1, 2, 3, 4, 5];
 </script>
 <style>
-.real-estate-wrapper {
+.real-estates-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -26,5 +30,20 @@ import AddButton from "./AddButton.vue";
       color: black;
     }
   }
+}
+.add-button {
+  background-color: hsl(0, 0%, 80%);
+  color: white;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 150%;
+  margin: 4px 2px;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>
