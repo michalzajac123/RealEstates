@@ -8,6 +8,17 @@
 </template>
 <script setup lang="ts">
 import HeaderView from "./components/HeaderView.vue";
+import { onMounted, ref } from "vue";
+import { useAnnouncementStore } from "./views/HomeView/store";
+const store = useAnnouncementStore();
+
+onMounted(async () => {
+  try {
+    await store.loadData();
+  } catch (err) {
+    console.log("Nie udało się załadować danych");
+  }
+});
 </script>
 <style scoped>
 .wrapper {

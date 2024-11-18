@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView/Homeview.vue";
 import AddRealEstateView from "../views/AddRealEstateView/AddRealEstateView.vue";
-
+import DetailsView from "../views/DetailsView/DetailsView.vue";
 // Definiowanie tras
 const routes = [
   {
@@ -11,15 +11,15 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/about",
-    name: "About",
-    // Lazy loading dla komponentu
-    component: () => import("../views/AboutView.vue"),
-  },
-  {
     path: "/form",
     name: "form",
     component: AddRealEstateView,
+  },
+  {
+    path: "/details",
+    name: "details",
+    component: DetailsView,
+    props: true,
   },
 ];
 

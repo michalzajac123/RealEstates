@@ -6,13 +6,26 @@
       <RouterLink to="/form" class="add-button">Dodaj</RouterLink>
     </div>
     <div class="real-estates">
-      <RealEstateBlock v-for="number in numbers" />
+      <RealEstateBlock
+        v-if="announcements.length > 0"
+        v-for="announcement in announcements"
+        :key="announcement.id"
+        :announcment="announcement"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import RealEstateBlock from "./RealEstateBlock.vue";
-let numbers = [1, 2, 3, 4, 5];
+import { useAnnouncementStore, type IAnnouncement } from "../HomeView/store";
+import { onMounted, watch, ref } from "vue";
+
+const store = useAnnouncementStore();
+let announcements = ref<IAnnouncement[]>(store.announcements);
+watch(() => store.announcements, (newVal) => {
+  announcements.value = newVal;
+});
+
 </script>
 <style>
 .real-estates-wrapper {
