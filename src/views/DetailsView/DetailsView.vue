@@ -2,8 +2,9 @@
   <div class="details">
     <div class="details-photo">
       <img
-        src="https://profesjonalista.net/wp-content/uploads/2019/08/z25104261IHCo-to-jest-mieszkanie-rozkladowe-.jpg"
-        alt=" zdjecie"
+        @click="visible = true"
+        :src="getImageUrl(announcement.files[0].directus_files_id)"
+        :alt="announcement.title"
       />
     </div>
     <div v-if="announcement.title" class="details-title">
@@ -19,13 +20,25 @@
       <p>{{ announcement.description }}</p>
     </div>
   </div>
+  <VueEasyLightbox
+    :visible="visible"
+    :imgs="
+      announcement.files.map((file) => getImageUrl(file.directus_files_id))
+    "
+    @hide="visible = false"
+  />
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
 import { type IAnnouncement } from "../HomeView/store";
 import { useAnnouncementStore } from "../HomeView/store";
-const store = useAnnouncementStore();
-const announcement = ref<IAnnouncement>(store.data);
+import VueEasyLightbox from "vue-easy-lightbox";
+const store = useAnnouncementStore(),
+  announcement = ref<IAnnouncement>(store.data),
+  toggler = ref(false),
+  DIRECTUS_BASE_URL = location.origin + "/directus",
+  visible = ref(false);
+const getImageUrl = (fileId: string) => `${DIRECTUS_BASE_URL}/assets/${fileId}`;
 </script>
 <style>
 .details {
