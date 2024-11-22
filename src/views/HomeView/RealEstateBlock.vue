@@ -20,7 +20,7 @@
 import { type IAnnouncement, useAnnouncementStore } from "./store";
 import { computed } from "vue";
 
-const DIRECTUS_BASE_URL = "http://localhost:5178/directus",
+const DIRECTUS_BASE_URL = location.origin + "/directus",
   files = computed(() => props.announcment?.files || []),
   props = defineProps<{
     announcment: IAnnouncement;
