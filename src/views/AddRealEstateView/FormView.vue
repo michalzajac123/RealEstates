@@ -22,7 +22,7 @@
       />
       <input type="text" name="email" id="email" placeholder="Adres email" />
       Dodaj Zdjęcia
-      <input type="file" name="photos" id="photos" />
+      <input @change="handleFileChange" type="file" name="photos" id="photos" ref="fileInput" />
 
       <div class="sewage">
         <label for="sewage">Kanalizacja</label>
@@ -38,10 +38,42 @@
       </div>
       <button type="submit">Dodaj</button>
     </form>
+    <div v-if="compressedImage">
+      <img :src="compressedImage" alt="Skompresowany obraz">
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
+import imageCompression from 'browser-image-compression';
+const fileInput = ref<HTMLInputElement | null>(null);
+const compressedImage = ref<string | null>(null);
+const handleFileChange = async(event:Event) =>{
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+
+  if(file){
+    try{
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 500,
+        quality:0.2,
+        useWebWorker: true
+      }
+      const compressedFile = await imageCompression(file, options);
+      const compressedImageUrl = URL.createObjectURL(compressedFile);
+      compressedImage.value = compressedImageUrl;
+      if(fileInput.value){
+        fileInput.value.value = compressedImageUrl;
+        
+      }
+      
+    }catch(error){
+      console.error(error); 
+    }
+  }
+}
 
 </script>
 <style>
