@@ -21,8 +21,33 @@
         placeholder="Number telefonu"
       />
       <input type="text" name="email" id="email" placeholder="Adres email" />
-      Dodaj Zdjęcia
-      <input @change="handleFileChange" type="file" name="photos" id="photos" ref="fileInput" />
+      <div
+        class="drop-zone"
+        @dragover.prevent="onDragOver"
+        @dragleave="onDragLeave"
+        @drop.prevent="handleDrop"
+        :class="{ 'is-dragging': isDragging }"
+      >
+        Przeciągnij i upuśc zdjęcia tutaj lub kliknij, aby wybrać
+        <input
+          @change="handleFileChange"
+          multiple
+          type="file"
+          name="photos"
+          id="photos"
+          ref="fileInput"
+        />
+        <div class="image-previews">
+          <div
+            v-for="(image, index) in compressedImages"
+            class="image"
+            :key="index"
+          >
+            <img :src="image" alt="Podgląd" />
+            <p class="remove-file" @click="removeFile">&#215;</p>
+          </div>
+        </div>
+      </div>
 
       <div class="sewage">
         <label for="sewage">Kanalizacja</label>
@@ -38,43 +63,61 @@
       </div>
       <button type="submit">Dodaj</button>
     </form>
-    <div v-if="compressedImage">
-      <img :src="compressedImage" alt="Skompresowany obraz">
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import imageCompression from 'browser-image-compression';
+import { ref } from "vue";
+import imageCompression from "browser-image-compression";
 const fileInput = ref<HTMLInputElement | null>(null);
-const compressedImage = ref<string | null>(null);
-const handleFileChange = async(event:Event) =>{
-  const input = event.target as HTMLInputElement;
-  const file = input.files?.[0];
+const compressedImages = ref<string[]>([]);
+const isDragging = ref(false);
 
-  if(file){
-    try{
+const handleFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const files = input.files;
+  if (files && files.length > 0) {
+    processFiles(files);
+  }
+};
+const handleDrop = (event: DragEvent) => {
+  const files = event.dataTransfer?.files;
+  if (files && files.length > 0) {
+    isDragging.value = false;
+    processFiles(files);
+  }
+};
+const onDragOver = () => {
+  isDragging.value = true;
+};
+const onDragLeave = () => {
+  isDragging.value = false;
+};
+const triggerFileInput = () => {
+  fileInput.value?.click();
+};
+const removeFile = (index: number) => {
+  compressedImages.value.splice(index, 1);
+  // No need to update fileInput.value as it does not support splice method
+  //automatyczne aktualizowanie input file
+};
+const processFiles = async (files: FileList) => {
+  for (const file of files) {
+    try {
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 500,
-        quality:0.2,
-        useWebWorker: true
-      }
+        quality: 0.2,
+        useWebWorker: true,
+      };
       const compressedFile = await imageCompression(file, options);
-      const compressedImageUrl = URL.createObjectURL(compressedFile);
-      compressedImage.value = compressedImageUrl;
-      if(fileInput.value){
-        fileInput.value.value = compressedImageUrl;
-        
-      }
-      
-    }catch(error){
-      console.error(error); 
+      const compresseImageUrl = URL.createObjectURL(compressedFile);
+      compressedImages.value.push(compresseImageUrl);
+    } catch (error) {
+      console.error(error);
     }
   }
-}
-
+};
 </script>
 <style>
 .form-wrapper {
@@ -83,23 +126,76 @@ const handleFileChange = async(event:Event) =>{
   font-size: 20px;
   justify-content: center;
   width: 80%;
-  .add-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    > input,
-    textarea {
-      margin: 20px;
-      height: 40px;
-      background-color: white;
-      border-radius: 10px;
-      border: 3px solid gray;
-      text-align: center;
-      font-size: 20px;
-      width: 100%;
-      color: black;
-    }
-  }
+}
+.add-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.add-form > input,
+textarea {
+  margin: 20px;
+  height: 40px;
+  background-color: white;
+  border-radius: 10px;
+  border: 3px solid gray;
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+  color: black;
+}
+.drop-zone {
+  border: 2px dashed gray;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+.drop-zone.is-dragging {
+  background-color: #e0f7fa;
+  border-color: #00796b;
+}
+.hidden-input {
+  display: none;
+}
+.image-previews {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.image-previews img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid gray;
+  position: relative;
+}
+.image {
+  position: relative;
+}
+.remove-file {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: black;
+  border-radius: 50%;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+}
+.remove-file:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+  transition: 0.2s;
 }
 .sewage,
 .water,
