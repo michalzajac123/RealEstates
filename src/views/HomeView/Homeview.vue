@@ -41,6 +41,9 @@ const store = useAnnouncementStore(),
   currentPage = ref(1),
   announcements = ref<IAnnouncement[]>(store.announcements),
   actuallAnnouncements = ref<IAnnouncement[]>([]);
+onMounted(() => {
+  updateAnnouncements();
+});
 watch(
   () => store.announcements,
   (newVal) => {
@@ -124,6 +127,6 @@ const updateAnnouncements = () => {
   text-decoration: none;
 }
 .pagination-buttons:hover {
-  background-color: hsl(0, 0%, 70%)
+  background-color: hsl(0, 0%, 70%);
 }
 </style>
