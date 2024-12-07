@@ -44,7 +44,7 @@
             :key="index"
           >
             <img :src="image" alt="Podgląd" />
-            <p class="remove-file" @click="removeFile">&#215;</p>
+            <p class="remove-file" @click="() => removeFile(index)">&#215;</p>
           </div>
         </div>
       </div>

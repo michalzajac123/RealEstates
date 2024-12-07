@@ -6,6 +6,7 @@
       <RouterLink to="/form" class="add-button">Dodaj</RouterLink>
     </div>
     <div class="real-estates">
+      
       <RealEstateBlock
         v-if="announcements.length > 0"
         v-for="announcement in announcements"
