@@ -30,7 +30,8 @@ export interface IAnnouncement {
  */
 export const useAnnouncementStore = defineStore("announcements", () => {
   const announcements = ref<IAnnouncement[]>([]),
-    announcementId = ref<number | null>(null);
+    announcementId = ref<number | null>(null),
+    pageNumber = ref<number>(0);
   /**
    *function loadData - download data from the server
    @returns {Promise<void>}
@@ -42,6 +43,12 @@ export const useAnnouncementStore = defineStore("announcements", () => {
       })
     );
     announcements.value = response as unknown as IAnnouncement[];
+    if (Array.from(announcements.value).length > 10) {
+      pageNumber.value = Array.from(announcements.value).length / 10;
+     
+      pageNumber.value = Math.ceil(pageNumber.value);
+    }
+    console.log(pageNumber.value);
     console.log(announcements.value);
   }
   const data = computed(() => {
@@ -49,5 +56,6 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     result = result.filter((item) => item.id === announcementId.value) || [];
     return result[0];
   });
-  return { loadData, announcements, data, announcementId };
+
+  return { loadData, announcements, data, announcementId, pageNumber };
 });
