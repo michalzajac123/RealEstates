@@ -22,7 +22,7 @@ export interface IAnnouncement {
     sort: null;
     name: string;
   };
-  files: IFile[] | FileList[];
+  files: File[] | IFile[];
 }
 /**
  * useAnnouncementStore - store for announcements
@@ -38,8 +38,8 @@ export const useAnnouncementStore = defineStore("announcements", () => {
       date_created: "",
       date_updated: "",
       title: "",
-      description: "",
-      email: "",
+      description: "cos",
+      email: "cosik@gmail.com",
       phone: "",
       price: 5,
       place: {
@@ -76,30 +76,39 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const response = await fetch("http://localhost:5173/directus/files", {
+      console.log(formData.get("file"));
+      const response = await fetch("http://localhost:5174/directus/files", {
         method: "POST",
         body: formData,
       });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        return data.data.id;
+      console.log(response.headers+" Nagłowki")
+      if (!response.ok) {
+        throw new Error("Error uploading file");
       }
+      if (response.status === 204) {
+        console.log("brak tresci w odpowiedzi");
+        return null;  
+      }
+      const data = await response.json();
+      return data.data.id;
     } catch (error) {
       console.error(error);
+      return null;
     }
   };
 
   const addAnnouncemntToDirectus = async () => {
     try {
-      const uploadedFiles = [];
-      for (const file of addAnnouncemnt.value.files) {
-        const fileBlob = await fetch(file).then((r) => r.blob());
-        const image = new File([fileBlob], "Image.jpg", { type: "image/jpeg" });
-        const uploadedFile = await uploadFileToDirectus(image);
-        uploadedFiles.push(uploadedFile);
-      }
-      addAnnouncemnt.value.title = "test";
+      const uploadedFiles: { id: string }[] = [];
+      console.log(addAnnouncemnt.value.files);
+      for(const file of addAnnouncemnt.value.files as File[]){
+        const fileId = await uploadFileToDirectus(file);
+        if(fileId){
+          uploadedFiles.push({id: fileId});
+        }
+      }  
+
+      //DOdanie ogłozenia do directusa
       await client.request(
         createItem("announcements", {
           price: addAnnouncemnt.value.price,
@@ -107,6 +116,7 @@ export const useAnnouncementStore = defineStore("announcements", () => {
           description: addAnnouncemnt.value.description,
           email: addAnnouncemnt.value.email,
           phone: addAnnouncemnt.value.phone,
+          place: addAnnouncemnt.value.place.id,
           files: uploadedFiles,
         })
       );
@@ -125,3 +135,7 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     addAnnouncemntToDirectus,
   };
 });
+function newFile(arg0: Blob[], name: any, arg2: { type: string; }) {
+  throw new Error("Function not implemented.");
+}
+

@@ -140,7 +140,6 @@ const validateForm = (e) => {
   if (
     store.addAnnouncemnt.price &&
     store.addAnnouncemnt.description &&
-    store.addAnnouncemnt.phone &&
     store.addAnnouncemnt.email
   ) {
     store.addAnnouncemntToDirectus();
