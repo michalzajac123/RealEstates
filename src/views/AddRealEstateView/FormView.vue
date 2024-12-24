@@ -1,7 +1,13 @@
 <template>
   <div class="form-wrapper">
     <form class="add-form">
-      <input type="number" id="price" name="price" placeholder="Cena" />
+      <input
+        type="number"
+        id="price"
+        v-model="store.addAnnouncemnt.price"
+        name="price"
+        placeholder="Cena"
+      />
       <input
         type="text"
         id="numberOfPlot"
@@ -10,6 +16,7 @@
       />
       <textarea
         type="text"
+        v-model="store.addAnnouncemnt.description"
         id="description"
         name="description"
         placeholder="Opis"
@@ -17,10 +24,17 @@
       <input
         type="phone"
         name="phoneNumber"
+        v-model="store.addAnnouncemnt.phone"
         id="phoneNumber"
         placeholder="Number telefonu"
       />
-      <input type="text" name="email" id="email" placeholder="Adres email" />
+      <input
+        type="text"
+        v-model="store.addAnnouncemnt.email"
+        name="email"
+        id="email"
+        placeholder="Adres email"
+      />
       <div
         class="drop-zone"
         @dragover.prevent="onDragOver"
@@ -48,7 +62,6 @@
           </div>
         </div>
       </div>
-
       <div class="sewage">
         <label for="sewage">Kanalizacja</label>
         <input type="checkbox" name="sewage" id="sewage" />
@@ -61,7 +74,7 @@
         <label for="access-to-road">Dostęp do drogi</label>
         <input type="checkbox" name="access-to-road" id="access-to-road" />
       </div>
-      <button type="submit">Dodaj</button>
+      <button type="submit" @click="validateForm">Dodaj</button>
     </form>
   </div>
 </template>
@@ -69,13 +82,17 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import imageCompression from "browser-image-compression";
-const fileInput = ref<HTMLInputElement | null>(null);
-const compressedImages = ref<string[]>([]);
-const isDragging = ref(false);
+import { useAnnouncementStore } from "../HomeView/store";
+
+const fileInput = ref<HTMLInputElement | null>(null),
+  compressedImages = ref<string[]>([]),
+  isDragging = ref(false),
+  store = useAnnouncementStore();
 
 const handleFileChange = async (event: Event) => {
   const input = event.target as HTMLInputElement;
   const files = input.files;
+
   if (files && files.length > 0) {
     processFiles(files);
   }
@@ -93,9 +110,6 @@ const onDragOver = () => {
 const onDragLeave = () => {
   isDragging.value = false;
 };
-const triggerFileInput = () => {
-  fileInput.value?.click();
-};
 const removeFile = (index: number) => {
   compressedImages.value.splice(index, 1);
   // No need to update fileInput.value as it does not support splice method
@@ -111,11 +125,27 @@ const processFiles = async (files: FileList) => {
         useWebWorker: true,
       };
       const compressedFile = await imageCompression(file, options);
+      console.log(compressedFile);
       const compresseImageUrl = URL.createObjectURL(compressedFile);
       compressedImages.value.push(compresseImageUrl);
+      
+      store.addAnnouncemnt.files.push(compressedFile);
     } catch (error) {
       console.error(error);
     }
+  }
+};
+const validateForm = (e) => {
+  e.preventDefault();
+  if (
+    store.addAnnouncemnt.price &&
+    store.addAnnouncemnt.description &&
+    store.addAnnouncemnt.phone &&
+    store.addAnnouncemnt.email
+  ) {
+    store.addAnnouncemntToDirectus();
+  } else {
+    alert("error");
   }
 };
 </script>
