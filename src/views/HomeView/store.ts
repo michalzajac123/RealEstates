@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { createItem, readItems } from "@directus/sdk";
+import { createItem, readItems, uploadFiles } from "@directus/sdk";
 import { client } from "../../utils/directusClient";
 import { computed, ref } from "vue";
 interface IFile {
@@ -72,15 +72,13 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     return result[0];
   });
 
-  const uploadFileToDirectus = async (file: File) => {
+  const uploadFileToDirectus = async (file: File, folderId: string) => {
     try {
       const formData = new FormData();
+      formData.append("folder", folderId);
       formData.append("file", file);
       console.log(formData.get("file"));
-      const response = await fetch("http://localhost:5174/directus/files", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await client.request(uploadFiles(formData));
       console.log(response.headers+" Nagłowki")
       if (!response.ok) {
         throw new Error("Error uploading file");
@@ -98,11 +96,17 @@ export const useAnnouncementStore = defineStore("announcements", () => {
   };
 
   const addAnnouncemntToDirectus = async () => {
+    const response = await fetch("http://localhost:5173/directus/folders")
+    const data = await response.json();
+    const folder = data.data.find((item: { name: string; }) => item.name === "announcements");
+
+    console.log(data);
+
     try {
       const uploadedFiles: { id: string }[] = [];
       console.log(addAnnouncemnt.value.files);
       for(const file of addAnnouncemnt.value.files as File[]){
-        const fileId = await uploadFileToDirectus(file);
+        const fileId = await uploadFileToDirectus(file, folder.id);
         if(fileId){
           uploadedFiles.push({id: fileId});
         }
