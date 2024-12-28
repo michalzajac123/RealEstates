@@ -1,7 +1,7 @@
 <template>
   <div class="real-estate-block">
     <div class="re-img">
-      <img :src="getImageUrl(files[0].directus_files_id)" alt="Real Estate" />
+      <img :src="getImageUrl((files[0] as IFile).directus_files_id)" alt="Real Estate" />
     </div>
     <div class="re-description">
       <h4 class="title">{{ announcment.title }}</h4>
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { type IAnnouncement, useAnnouncementStore } from "./store";
 import { computed } from "vue";
-
+import type { IFile } from "./store";
 const DIRECTUS_BASE_URL = location.origin + "/directus",
   files = computed(() => props.announcment?.files || []),
   props = defineProps<{
@@ -28,8 +28,6 @@ const DIRECTUS_BASE_URL = location.origin + "/directus",
   store = useAnnouncementStore();
 
 const getImageUrl = (fileId: string) => `${DIRECTUS_BASE_URL}/assets/${fileId}`;
-console.log(props.announcment.files);
-console.log(props.announcment.files[0].directus_files_id);
 const changeRoute = (id) => {
   store.announcementId = id; // store.announcementId is a ref in store when we click on the link we change the value of this ref
 };

@@ -128,7 +128,7 @@ const processFiles = async (files: FileList) => {
       console.log(compressedFile);
       const compresseImageUrl = URL.createObjectURL(compressedFile);
       compressedImages.value.push(compresseImageUrl);
-      
+
       store.addAnnouncemnt.files.push(compressedFile);
     } catch (error) {
       console.error(error);

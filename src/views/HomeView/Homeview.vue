@@ -1,9 +1,7 @@
 <template>
   <div class="real-estates-wrapper">
     <div class="re-top">
-      <div></div>
       <h2 class="re-top-title">Lista</h2>
-      <RouterLink to="/form" class="add-button">Dodaj</RouterLink>
     </div>
     <div class="real-estates">
       <RealEstateBlock
@@ -24,7 +22,7 @@
       <button
         @click="nextPage"
         class="pagination-buttons"
-        :disabled="announcements.length < 3"
+        :disabled="announcements.length < 10"
       >
         Następna
       </button>
@@ -87,7 +85,7 @@ const updateAnnouncements = () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   .re-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     > h2 {
       color: black;
     }

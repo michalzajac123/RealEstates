@@ -3,7 +3,7 @@
     <div class="details-photo">
       <img
         @click="visible = true"
-        :src="getImageUrl(announcement.files[0].directus_files_id)"
+        :src="getImageUrl((announcement.files[0] as IFile).directus_files_id)"
         :alt="announcement.title"
       />
     </div>
@@ -30,12 +30,11 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { type IAnnouncement } from "../HomeView/store";
+import { IFile, type IAnnouncement } from "../HomeView/store";
 import { useAnnouncementStore } from "../HomeView/store";
 import VueEasyLightbox from "vue-easy-lightbox";
 const store = useAnnouncementStore(),
-  announcement = ref<IAnnouncement>(store.data),
-  toggler = ref(false),
+  announcement = ref<IAnnouncement>(store.data || ({} as IAnnouncement)),
   DIRECTUS_BASE_URL = location.origin + "/directus",
   visible = ref(false);
 const getImageUrl = (fileId: string) => `${DIRECTUS_BASE_URL}/assets/${fileId}`;

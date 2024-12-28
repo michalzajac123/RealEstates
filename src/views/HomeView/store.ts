@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { createItem, readItems, uploadFiles } from "@directus/sdk";
 import { client } from "../../utils/directusClient";
 import { computed, ref } from "vue";
-interface IFile {
+export interface IFile {
   id: number;
   announcments_id: number;
   directus_files_id: string;
@@ -31,7 +31,7 @@ export interface IAnnouncement {
 export const useAnnouncementStore = defineStore("announcements", () => {
   const announcements = ref<IAnnouncement[]>([]),
     announcementId = ref<number | null>(null),
-    pageNumber = ref<number>(0),
+    pageNumber = ref<number>(1),
     addAnnouncemnt = ref<IAnnouncement>({
       id: 0,
       status: "",
@@ -60,16 +60,19 @@ export const useAnnouncementStore = defineStore("announcements", () => {
       })
     );
     announcements.value = response as unknown as IAnnouncement[];
-    if (Array.from(announcements.value).length > 10) {
-      pageNumber.value = Array.from(announcements.value).length / 10;
-
-      pageNumber.value = Math.ceil(pageNumber.value);
+    if (Array.from(announcements.value).length > 10) { //check if there are more than 10 announcements
+      pageNumber.value = Array.from(announcements.value).length / 10; //if yes, calculate the number of pages
+      if(pageNumber.value === 1){
+        pageNumber.value = 0;
+      }
+      else{
+        pageNumber.value = Math.ceil(pageNumber.value); //round up the number of pages
+      }
+      console.log(pageNumber.value);
     }
   }
   const data = computed(() => {
-    let result = announcements.value;
-    result = result.filter((item) => item.id === announcementId.value) || [];
-    return result[0];
+    return announcements.value.find((item) => item.id === announcementId.value)
   });
 
   const uploadFileToDirectus = async (file: File, folderId: string) => {
@@ -77,9 +80,7 @@ export const useAnnouncementStore = defineStore("announcements", () => {
       const formData = new FormData();
       formData.append("folder", folderId);
       formData.append("file", file);
-      console.log(formData.get("file"));
       const response = await client.request(uploadFiles(formData));
-      console.log(response.headers+" Nagłowki")
       if (!response.ok) {
         throw new Error("Error uploading file");
       }
@@ -100,11 +101,9 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     const data = await response.json();
     const folder = data.data.find((item: { name: string; }) => item.name === "announcements");
 
-    console.log(data);
 
     try {
       const uploadedFiles: { id: string }[] = [];
-      console.log(addAnnouncemnt.value.files);
       for(const file of addAnnouncemnt.value.files as File[]){
         const fileId = await uploadFileToDirectus(file, folder.id);
         if(fileId){
