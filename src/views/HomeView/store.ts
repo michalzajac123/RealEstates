@@ -78,21 +78,15 @@ export const useAnnouncementStore = defineStore("announcements", () => {
   const uploadFileToDirectus = async (file: File, folderId: string) => {
     try {
       const formData = new FormData();
+
       formData.append("folder", folderId);
       formData.append("file", file);
-      const response = await client.request(uploadFiles(formData));
-      if (!response.ok) {
-        throw new Error("Error uploading file");
-      }
-      if (response.status === 204) {
-        console.log("brak tresci w odpowiedzi");
-        return null;  
-      }
-      const data = await response.json();
-      return data.data.id;
+
+      const result = await client.request(uploadFiles(formData));
+
+      return result.id;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw error
     }
   };
 
@@ -101,17 +95,22 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     const data = await response.json();
     const folder = data.data.find((item: { name: string; }) => item.name === "announcements");
 
-
     try {
-      const uploadedFiles: { id: string }[] = [];
+      const uploadedFiles = {
+        create: [],
+      };
+
       for(const file of addAnnouncemnt.value.files as File[]){
-        const fileId = await uploadFileToDirectus(file, folder.id);
+        const fileId = await uploadFileToDirectus(file, folder.id)
+
         if(fileId){
-          uploadedFiles.push({id: fileId});
+          uploadedFiles.create.push({
+            announcements_id: "+",
+            directus_files_id: { id: fileId }
+          });
         }
       }  
 
-      //DOdanie ogłozenia do directusa
       await client.request(
         createItem("announcements", {
           price: addAnnouncemnt.value.price,
@@ -120,7 +119,7 @@ export const useAnnouncementStore = defineStore("announcements", () => {
           email: addAnnouncemnt.value.email,
           phone: addAnnouncemnt.value.phone,
           place: addAnnouncemnt.value.place.id,
-          files: uploadedFiles,
+          files: uploadedFiles
         })
       );
     } catch (error) {
@@ -138,7 +137,4 @@ export const useAnnouncementStore = defineStore("announcements", () => {
     addAnnouncemntToDirectus,
   };
 });
-function newFile(arg0: Blob[], name: any, arg2: { type: string; }) {
-  throw new Error("Function not implemented.");
-}
 
