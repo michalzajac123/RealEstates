@@ -1,3 +1,8 @@
 {
-  "recommendations": ["Vue.volar"]
-}
+   "recommendations": [
+       "christian-kohler.npm-intellisense",
+       "EditorConfig.EditorConfig",
+       "syler.sass-indented",
+       "rvest.vs-code-prettier-eslint"
+    ]
+ }
