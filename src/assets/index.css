@@ -16,6 +16,10 @@
 
 html {
   width: 100%;
+   --background-color: rgb(242, 242, 242);
+   --font-size-1: 1rem;
+   --font-size-2: 1.1rem;
+   --border-radius-100: 100px;
 }
 body {
   margin: 0;
