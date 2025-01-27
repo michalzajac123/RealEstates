@@ -2,7 +2,6 @@ import { defineStore } from "pinia"
 import { createItem, readItems, uploadFiles } from "@directus/sdk"
 import { client } from "../../utils/directusClient"
 import { computed, ref } from "vue"
-
 export interface IFile {
    id: number
    announcments_id: number
@@ -77,18 +76,14 @@ export const useAnnouncementStore = defineStore("announcements", () => {
    })
 
    const uploadFileToDirectus = async (file: File, folderId: string) => {
-      try {
-         const formData = new FormData()
+      const formData = new FormData()
 
-         formData.append("folder", folderId)
-         formData.append("file", file)
+      formData.append("folder", folderId)
+      formData.append("file", file)
 
-         const result = await client.request(uploadFiles(formData))
+      const result = await client.request(uploadFiles(formData))
 
-         return result.id
-      } catch (error) {
-         throw error
-      }
+      return result.id
    }
 
    const addAnnouncemntToDirectus = async () => {
@@ -97,7 +92,7 @@ export const useAnnouncementStore = defineStore("announcements", () => {
       const folder = data.data.find((item: { name: string }) => item.name === "announcements")
 
       try {
-         const uploadedFiles = {
+         const uploadedFiles: { create: { announcements_id: string; directus_files_id: { id: number } }[] } = {
             create: []
          }
 
