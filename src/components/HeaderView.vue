@@ -54,7 +54,7 @@ const toggleMenu = () => {
    display: flex;
    justify-content: space-between;
    align-items: center;
-   width: 80%;
+   width: var(--window-width);
    padding: var(--size-fluid-3) 0;
    text-align: center;
 }
@@ -65,7 +65,7 @@ const toggleMenu = () => {
    justify-content: center;
 }
 .h-title-text {
-   font-size: var(--font-size-5);
+   font-size: var(--font-size-2);
    margin: 0.3rem;
    color: var(--text-color);
    font-weight: var(--font-weight-8);
@@ -176,6 +176,7 @@ ul {
    align-items: start;
    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
    transition: all 0.3s ease;
+   width: 100%;
    z-index: 10;
    .line {
       width: 100%;
@@ -198,13 +199,33 @@ ul {
    color: var(--text-color);
    padding: var(--default-padding) 0;
    border-radius: 0.5rem;
-   cursor: pointer;
    transition: background 0.2s ease;
 }
 .submenu li:hover {
    color: white !important;
 }
 .phone-number {
-   margin: 0 10px;
+   margin: 0;
+}
+@media (max-width:1440px) {
+   .header {
+      height: 8rem;
+      width: var(--window-width-2);
+   }
+   .header-title {
+      display: none;
+   }
+   .header-links {
+      width: 30%;
+   }
+}
+@media (max-width: 770px) {
+   .header {
+      height: 6rem;
+      width: var(--window-width-3);
+   }
+   .header-links {
+      width: 40%;
+   }
 }
 </style>

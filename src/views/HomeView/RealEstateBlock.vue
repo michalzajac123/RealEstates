@@ -1,15 +1,14 @@
 <template>
    <div class="real-estate-block">
-      <div class="re-img">
-         <img :src="getImageUrl((files[0] as IFile).directus_files_id)" alt="Real Estate" />
+      <div class="real-estate-block-img">
+         <RouterLink :to="{ name: 'details' }" class="show-details" @click="changeRoute(announcment.id)"
+            ><img :src="getImageUrl((files[0] as IFile)?.directus_files_id)" alt="Real Estate"
+         /></RouterLink>
+         <p class="price">{{ announcment.price }} zł</p>
       </div>
       <div class="re-description">
-         <h4 class="title">{{ announcment.title }}</h4>
-         <p class="price">{{ announcment.price }} zł</p>
          <p class="address">{{ announcment.place.name }}</p>
-         <RouterLink :to="{ name: 'details' }" class="show-details" @click="changeRoute(announcment.id)"
-            >Szczegóły</RouterLink
-         >
+         <p class="description">{{ announcment.description }}</p>
       </div>
    </div>
 </template>
@@ -31,70 +30,66 @@ const changeRoute = (id) => {
 </script>
 <style scoped>
 .real-estate-block {
-   width: 100%;
-   display: flex;
-   margin-bottom: 30px;
-   background-color: white;
-   border-radius: 10px;
-}
-.re-img {
-   width: 50%;
-   height: 300px;
-   img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-   }
-}
-.re-description {
    display: flex;
    flex-direction: column;
-   padding: 10px;
-   > * {
-      color: black;
-   }
-   .title {
-      font-size: 25px;
-      margin: 0;
-      font-weight: bold;
-   }
-   .price {
-      font-size: 22px;
-      font-weight: bold;
-   }
-   .address {
-      font-size: 20px;
-      font-weight: 500;
-   }
-   .show-details {
-      width: 100px;
-      height: 30px;
-      background-color: #dcdcdc;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-   }
+   width: 95%;
+   height: 19rem;
+   place-self: center;
+   position: relative;
 }
-@media (max-width: 764px) {
-   .real-estate-block {
-      flex-direction: column;
-   }
-   .re-description {
-      width: 100%;
-   }
-   .re-img {
-      width: 100%;
-      height: 300px;
+p.price {
+   font-size: var(--font-size-4);
+   padding: var(--default-padding);
+   color: var(--white-text-color) !important;
+   position: absolute !important;
+   top: 0;
+   left: 5%;
+}
+.real-estate-block-img {
+   height: 70%;
+   .show-details {
+      display: block;
+      height: 100%;
       img {
+         display: block;
          width: 100%;
+         object-fit: cover;
          height: 100%;
+         filter: brightness(0.7);
+         border-radius: 20px;
       }
    }
-   .show-details {
-      width: 100%;
+}
+
+.re-description {
+   padding: var(--default-padding);
+   .address {
+      color: var(--orange-text-color);
+      font-size: var(--font-size-3);
+      font-weight: var(--font-weight-5);
+   }
+   .description {
+      color: var(--gray-text-color);
+      font-weight: var(--font-weight-4);
+   }
+}
+@media (max-width: 770px){
+   .real-estate-block {
+      height: 15rem;
+   }
+   p.price {
+      font-size: var(--font-size-3);
+   }
+   .re-description {
+      .address {
+         font-size: var(--font-size-2);
+      }
+      .description {
+         font-size: var(--font-size-1);
+      }
+   }
+   .real-estate-block-img {
+      height: 95%;
    }
 }
 </style>

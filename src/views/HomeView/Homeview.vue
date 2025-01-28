@@ -1,25 +1,26 @@
 <template>
-   <div class="real-estates-wrapper">
-      <div class="re-top">
-         <h2 class="re-top-title">Lista</h2>
-      </div>
-      <div class="real-estates">
-         <template v-if="announcements.length > 0">
-            <RealEstateBlock
-               v-for="actuallAnnouncement in actuallAnnouncements"
-               :key="actuallAnnouncement.id"
-               :announcment="actuallAnnouncement"
-            />
-         </template>
-      </div>
-      <div class="pagination">
-         <button class="pagination-buttons" :disabled="pageNumber === 1" @click="prevPage">Poprzednia</button>
-         <button class="pagination-buttons" :disabled="announcements.length < 10" @click="nextPage">Następna</button>
-      </div>
+   <Hero></Hero>
+   <div class="re-top">
+      <p class="re-top-title">LISTA OGŁOSZEŃ</p>
+      <span class="line"></span>
+   </div>
+   <div class="real-estates">
+      <template v-if="announcements.length > 0">
+         <RealEstateBlock
+            v-for="actuallAnnouncement in actuallAnnouncements"
+            :key="actuallAnnouncement.id"
+            :announcment="actuallAnnouncement"
+         />
+      </template>
+   </div>
+   <div class="pagination">
+      <button class="pagination-buttons" :disabled="pageNumber === 1" @click="prevPage">Poprzednia</button>
+      <button class="pagination-buttons" :disabled="announcements.length < 6" @click="nextPage">Następna</button>
    </div>
 </template>
 <script setup lang="ts">
 import RealEstateBlock from "./RealEstateBlock.vue"
+import Hero from "./Hero.vue"
 import { useAnnouncementStore, type IAnnouncement } from "../HomeView/store"
 import { onMounted, watch, ref } from "vue"
 
@@ -57,27 +58,33 @@ const updateAnnouncements = () => {
       currentPage.value = pageNumber.value
    }
    for (let i = 0; i < announcements.value.length; i++) {
-      if (i >= (currentPage.value - 1) * 10 && i < currentPage.value * 10) {
+      if (i >= (currentPage.value - 1) * 6 && i < currentPage.value * 6) {
          actuallAnnouncements.value.push(announcements.value[i])
       }
    }
 }
 </script>
-<style>
-.real-estates-wrapper {
+<style scoped>
+.real-estates {
+   display: grid;
+   grid-template-columns: 33.3% 33.3% 33.3%;
+}
+.re-top {
    display: flex;
-   flex-direction: column;
-   width: 100%;
-   margin: 0 auto;
-   border-radius: 10px;
-   padding: 10px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   .re-top {
-      display: flex;
-      justify-content: center;
-      > h2 {
-         color: black;
-      }
+   align-items: center;
+   margin-bottom: var(--size-fluid-4);
+   p {
+      color: var(--orange-text-color);
+      font-size: var(--font-size-1);
+      font-weight: var(--font-weight-4);
+      width: var(--width-20);
+      letter-spacing: 0.2px;
+   }
+   .line {
+      width: 140%;
+      height: 1px;
+      background-color: var(--grey-background-color);
+      text-align: center;
    }
 }
 .add-button {
@@ -115,5 +122,17 @@ const updateAnnouncements = () => {
 }
 .pagination-buttons:hover {
    background-color: hsl(0, 0%, 70%);
+}
+@media (max-width: 1350px) {
+   .real-estates {
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 33.3% 33.3% 33.3%;
+   }
+}
+@media (max-width: 761px){
+   .real-estates {
+      grid-template-columns: 100%;
+      grid-template-rows: 25% 25% 25% 25%;
+   }
 }
 </style>

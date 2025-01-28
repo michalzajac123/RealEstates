@@ -60,9 +60,9 @@ export const useAnnouncementStore = defineStore("announcements", () => {
          })
       )
       announcements.value = response as unknown as IAnnouncement[]
-      if (Array.from(announcements.value).length > 10) {
+      if (Array.from(announcements.value).length > 6) {
          //check if there are more than 10 announcements
-         pageNumber.value = Array.from(announcements.value).length / 10 //if yes, calculate the number of pages
+         pageNumber.value = Array.from(announcements.value).length / 6 //if yes, calculate the number of pages
          if (pageNumber.value === 1) {
             pageNumber.value = 0
          } else {

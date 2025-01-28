@@ -29,8 +29,21 @@ onMounted(async () => {
    background-color: var(--background-color);
    align-items: center;
    .wrapper-content {
-      width: 80%;
+      width: var(--window-width);
       margin: 10px;
    }
 }
-</style>
+@media (max-width: 1440px) {
+   .wrapper {
+      .wrapper-content {
+         width: var(--window-width-2);
+      }
+   }
+}
+@media (max-width: 770px) {
+   .wrapper {
+      .wrapper-content {
+         width: var(--window-width-3);
+      }
+   }
+}</style>
