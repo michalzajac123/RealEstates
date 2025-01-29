@@ -119,7 +119,6 @@
    display: flex;
    background-color: white;
    flex-direction: column;
-   width: 75%;
    margin: 0 auto;
    align-items: center;
    border-radius: 10px;
@@ -127,7 +126,6 @@
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .statut-text {
-   width: 90%;
    margin: 0 auto;
    text-align: justify;
    color: black;

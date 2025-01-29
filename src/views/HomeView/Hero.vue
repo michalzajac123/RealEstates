@@ -22,7 +22,6 @@
 <style scoped>
 .hero {
    display: flex;
-   width: var(--width-100);
    justify-content: center;
    margin-bottom: var(--size-fluid-4);
 }
@@ -31,7 +30,6 @@
    flex-direction: column;
    justify-content: center;
    align-items: start;
-   width: 100%;
    padding: var(--size-fluid-3) var(--size-fluid-2);
 }
 .grey {

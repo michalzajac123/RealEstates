@@ -32,8 +32,6 @@ const changeRoute = (id) => {
 .real-estate-block {
    display: flex;
    flex-direction: column;
-   width: 95%;
-   height: 19rem;
    place-self: center;
    position: relative;
 }
@@ -46,23 +44,22 @@ p.price {
    left: 5%;
 }
 .real-estate-block-img {
-   height: 70%;
    .show-details {
       display: block;
-      height: 100%;
       img {
          display: block;
-         width: 100%;
          object-fit: cover;
-         height: 100%;
          filter: brightness(0.7);
          border-radius: 20px;
+         height: 256px;
+         aspect-ratio: 2 / 1;
       }
    }
 }
 
 .re-description {
-   padding: var(--default-padding);
+   padding: calc(var(--default-padding) / 3) var(--default-padding);
+
    .address {
       color: var(--orange-text-color);
       font-size: var(--font-size-3);
@@ -73,10 +70,7 @@ p.price {
       font-weight: var(--font-weight-4);
    }
 }
-@media (max-width: 770px){
-   .real-estate-block {
-      height: 15rem;
-   }
+@media (max-width: 770px) {
    p.price {
       font-size: var(--font-size-3);
    }
@@ -88,8 +82,10 @@ p.price {
          font-size: var(--font-size-1);
       }
    }
-   .real-estate-block-img {
-      height: 95%;
+   .show-details {
+      img {
+         height: 156px;
+      }
    }
 }
 </style>

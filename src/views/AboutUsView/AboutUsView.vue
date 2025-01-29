@@ -57,7 +57,6 @@
    display: flex;
    background-color: white;
    flex-direction: column;
-   width: 75%;
    margin: 0 auto;
    height: 100vh;
    align-items: center;

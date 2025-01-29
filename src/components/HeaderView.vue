@@ -50,11 +50,9 @@ const toggleMenu = () => {
 /* Header */
 .header {
    color: rgb(90, 90, 90);
-   height: 10rem;
    display: flex;
    justify-content: space-between;
    align-items: center;
-   width: var(--window-width);
    padding: var(--size-fluid-3) 0;
    text-align: center;
 }
@@ -122,7 +120,6 @@ const toggleMenu = () => {
    padding: var(--padding-1);
    display: flex;
    position: relative;
-   width: 20%;
 }
 .ham-menu {
    height: 2.5rem;
@@ -133,7 +130,6 @@ const toggleMenu = () => {
 }
 .ham-menu span {
    height: 5px;
-   width: 100%;
    background-color: var(--orange-background-color);
    border-radius: 25px;
    position: absolute;
@@ -141,6 +137,7 @@ const toggleMenu = () => {
    left: 50%;
    transform: translate(-50%, -50%);
    transition: 0.3s ease;
+   width: 100%;
 }
 .ham-menu span:nth-child(1) {
    top: 25%;
@@ -176,10 +173,8 @@ ul {
    align-items: start;
    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
    transition: all 0.3s ease;
-   width: 100%;
    z-index: 10;
    .line {
-      width: 100%;
       height: 1px;
       background-color: var(--orange-background-color);
    }
@@ -200,6 +195,7 @@ ul {
    padding: var(--default-padding) 0;
    border-radius: 0.5rem;
    transition: background 0.2s ease;
+   white-space: nowrap;
 }
 .submenu li:hover {
    color: white !important;
@@ -207,25 +203,21 @@ ul {
 .phone-number {
    margin: 0;
 }
-@media (max-width:1440px) {
+@media (max-width: 1440px) {
    .header {
       height: 8rem;
-      width: var(--window-width-2);
    }
    .header-title {
       display: none;
    }
    .header-links {
-      width: 30%;
    }
 }
 @media (max-width: 770px) {
    .header {
       height: 6rem;
-      width: var(--window-width-3);
    }
    .header-links {
-      width: 40%;
    }
 }
 </style>

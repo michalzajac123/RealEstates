@@ -67,7 +67,8 @@ const updateAnnouncements = () => {
 <style scoped>
 .real-estates {
    display: grid;
-   grid-template-columns: 33.3% 33.3% 33.3%;
+   grid-template-columns: 1fr 1fr 1fr;
+   gap: calc(var(--default-padding) * 2);
 }
 .re-top {
    display: flex;
@@ -77,11 +78,9 @@ const updateAnnouncements = () => {
       color: var(--orange-text-color);
       font-size: var(--font-size-1);
       font-weight: var(--font-weight-4);
-      width: var(--width-20);
       letter-spacing: 0.2px;
    }
    .line {
-      width: 140%;
       height: 1px;
       background-color: var(--grey-background-color);
       text-align: center;
@@ -94,7 +93,6 @@ const updateAnnouncements = () => {
    display: flex;
    justify-content: center;
    align-items: center;
-   width: 100px;
    border-radius: 10px;
    text-align: center;
    font-size: 150%;
@@ -113,7 +111,6 @@ const updateAnnouncements = () => {
    display: flex;
    justify-content: center;
    align-items: center;
-   width: 100px;
    border-radius: 10px;
    text-align: center;
    margin: 4px 2px;
@@ -125,14 +122,14 @@ const updateAnnouncements = () => {
 }
 @media (max-width: 1350px) {
    .real-estates {
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 33.3% 33.3% 33.3%;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
    }
 }
-@media (max-width: 761px){
+@media (max-width: 761px) {
    .real-estates {
       grid-template-columns: 100%;
-      grid-template-rows: 25% 25% 25% 25%;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
    }
 }
 </style>

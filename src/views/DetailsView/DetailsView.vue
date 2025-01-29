@@ -42,18 +42,13 @@ const getImageUrl = (fileId: string) => `${DIRECTUS_BASE_URL}/assets/${fileId}`
    display: flex;
    background-color: white;
    flex-direction: column;
-   width: 90%;
-   margin: 0 auto;
-   height: 100vh;
    border-radius: 10px;
    padding: 10px;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .details-photo {
-   width: 100%;
    img {
       border-radius: 15px;
-      width: 100%;
       height: 400px;
       object-fit: cover;
    }
