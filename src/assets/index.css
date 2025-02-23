@@ -17,16 +17,22 @@
 
 html {
    --background-color: rgb(242, 242, 242);
+   --black-background: #0a0a0a;
    --font-size-1: 1rem;
    --font-size-2: 1.2rem;
    --border-radius-100: 100px;
+   --border-radius-50: 50px;
+   --border-radius-25: 25px;
+   --border-radius-10: 10px;
    --text-color: #0a0a0a;
    --orange-background-color: rgb(234, 139, 97);
    --orange-text-color: #af5634;
    --gray-text-color: #6a6a6a;
    --grey-background-color: #b3b3b3;
+   --light-gray-background-color: #d9d9d9;
    --white-text-color: #fff;
    --default-padding: 0.8rem;
+   --input-padding: 0.5rem;
    --padding-2: 1.3rem;
    --default-gap: 1rem;
    --width-100: 100%;
@@ -37,6 +43,7 @@ html {
    --window-width: 55%;
    --window-width-2: 80%;
    --window-width-3: 95%;
+   --default-margin: 0.5rem;
 }
 body {
    margin: 0;
@@ -45,7 +52,7 @@ body {
 }
 
 #app {
-   padding: 1rem;
    width: min(100%, 1280px);
    margin: auto;
+   padding: var(--default-padding);
 }

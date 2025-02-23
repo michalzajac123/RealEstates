@@ -1,7 +1,7 @@
 <template>
    <div class="real-estate-block">
       <div class="real-estate-block-img">
-         <RouterLink :to="{ name: 'details' }" class="show-details" @click="changeRoute(announcment.id)"
+         <RouterLink :to="{ name: 'details', params: { id: announcment.id } }" class="show-details"
             ><img :src="getImageUrl((files[0] as IFile)?.directus_files_id)" alt="Real Estate"
          /></RouterLink>
          <p class="price">{{ announcment.price }} zł</p>
@@ -13,20 +13,15 @@
    </div>
 </template>
 <script lang="ts" setup>
-import { type IAnnouncement, useAnnouncementStore } from "./store"
+import { type IAnnouncement } from "./store"
 import { computed } from "vue"
 import type { IFile } from "./store"
 const DIRECTUS_BASE_URL = location.origin + "/directus",
    files = computed(() => props.announcment?.files || []),
    props = defineProps<{
       announcment: IAnnouncement
-   }>(),
-   store = useAnnouncementStore()
-
+   }>()
 const getImageUrl = (fileId: string) => `${DIRECTUS_BASE_URL}/assets/${fileId}`
-const changeRoute = (id) => {
-   store.announcementId = id // store.announcementId is a ref in store when we click on the link we change the value of this ref
-}
 </script>
 <style scoped>
 .real-estate-block {

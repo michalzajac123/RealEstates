@@ -18,7 +18,7 @@ const routes = [
       component: AddRealEstateView
    },
    {
-      path: "/details",
+      path: "/details:id?",
       name: "details",
       component: DetailsView,
       props: true
