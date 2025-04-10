@@ -50,8 +50,8 @@ const toggleMenu = () => {
 /* Header */
 .header {
    color: rgb(90, 90, 90);
-   display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
+   display: flex;
+   justify-content: space-between;
    align-items: center;
    padding: var(--size-fluid-3) 0;
    text-align: center;
@@ -205,19 +205,19 @@ ul {
 }
 @media (max-width: 1440px) {
    .header {
-      grid-template-columns: 1fr 1fr;
       height: 8rem;
    }
    .header-title {
       display: none;
+   }
+   .header-links {
    }
 }
 @media (max-width: 770px) {
    .header {
       height: 6rem;
    }
-   .search-button {
-      display: none;
+   .header-links {
    }
 }
 </style>

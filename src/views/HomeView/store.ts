@@ -30,7 +30,6 @@ export interface IAnnouncement {
  */
 export const useAnnouncementStore = defineStore("announcements", () => {
    const announcements = ref<IAnnouncement[]>([]),
-      announcement = ref<IAnnouncement>({} as IAnnouncement),
       announcementId = ref<number | null>(null),
       pageNumber = ref<number>(1),
       addAnnouncemnt = ref<IAnnouncement>({
@@ -71,18 +70,6 @@ export const useAnnouncementStore = defineStore("announcements", () => {
          }
          console.log(pageNumber.value)
       }
-   }
-   async function loadAnnouncement(id: number) {
-      const response = await client.request(
-         readItems("announcements", {
-            fields: ["*.*"],
-            filter: {
-               id: id
-            }
-         })
-      )
-      announcement.value = response[0] as unknown as IAnnouncement
-      console.log("Typ response:", Array.isArray(announcement.value) ? "Tablica" : "Obiekt", announcement.value)
    }
    const data = computed(() => {
       return announcements.value.find((item) => item.id === announcementId.value)
@@ -138,10 +125,8 @@ export const useAnnouncementStore = defineStore("announcements", () => {
 
    return {
       loadData,
-      loadAnnouncement,
       announcements,
       data,
-      announcement,
       announcementId,
       pageNumber,
       addAnnouncemnt,

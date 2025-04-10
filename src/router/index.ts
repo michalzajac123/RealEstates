@@ -1,5 +1,5 @@
 // src/router/index.ts
-import { createRouter, createWebHashHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "../views/HomeView/Homeview.vue"
 import AddRealEstateView from "../views/AddRealEstateView/AddRealEstateView.vue"
 import DetailsView from "../views/DetailsView/DetailsView.vue"
@@ -18,7 +18,7 @@ const routes = [
       component: AddRealEstateView
    },
    {
-      path: "/details:id?",
+      path: "/details",
       name: "details",
       component: DetailsView,
       props: true
@@ -36,8 +36,7 @@ const routes = [
 ]
 
 const router = createRouter({
-
-   history: createWebHashHistory(import.meta.env.BASE_URL),
+   history: createWebHistory(import.meta.env.BASE_URL),
    routes
 })
 
