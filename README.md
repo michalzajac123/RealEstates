@@ -25,21 +25,30 @@ npm run dev
 
 Vue 3 — modern reactive UI framework
 TypeScript — typed JavaScript for safer code
+
 Vite — blazing fast build tool and dev server
+
 Tailwind CSS — utility-first CSS styling
+
 Additional libraries/tools — (you can list any you used: e.g., Vue Router, Pinia, Axios, etc.)
 
 ## ✅ What’s Included
 
 Responsive UI optimized for desktop & mobile
+
 Property listing pages (sale/rent)
+
 Clean component-based architecture
+
 Fast local development environment & production-ready build
 
 ## 🌟 Next Steps / To-Do
 
 Add user authentication & profiles
+
 Enable image uploads for properties
+
 Integrate map/location services (e.g., Google Maps)
+
 Add search & filter functionality (price, location, type)
 
